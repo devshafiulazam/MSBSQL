@@ -1,0 +1,176 @@
+CREATE DATABASE [IF NOT EXISTS] database_name;
+CREATE DATABASE IF NOT EXISTS Sales;
+CREATE SCHEMA IF NOT EXISTS Sales;
+
+USE Sales;
+
+
+IntroDuction to Data Types
+----------------------------
+We must always specify the type of data that will be inserted
+in each column of the table
+
+Data Type       Surnme of a Person       Length         Size
+........        ..................       ......         .....
+String           'Azam'                  4 symbols        4 bytes
+
+
+
+
+String Data Types
+-----------------
+
+
+String Data Types        Storage    Example                     Length(Symb)   Size (bytes)
+................  .....  ........   ......                      ........        .......
+Character         CHAR    Fixed      CHAR(5)'james','bob'        5/3            5/5
+Variable(Char)   VARCHAR  Variable   VARCHAR(5)'jame','bob'      5/3            5/3
+
+
+
+Stings data types                               Example
+..............             .......              ............
+Character                  CHAR                 CHAR(5)
+Variable Character         VARCHAR              VARCHAR(5)
+ENUM(enumerate)            ENUM                 ENUM('M','F')
+
+
+
+
+Integers
+--------
+
+Numeric data type           Size(bytes)    Minimum Value (signed/unsigned)       Maximum Value (signed/unsigned)
+..............              ........       .......................               ..........................
+TINYINT                        1             -128 /0                               127/255
+SMALLINT                       2             -32,768/0                             32,768/65,535                                  
+MEDIUMINT                      3             -8,388,608/0                          8,388,607/16,777,215                         
+INT                            4             -2,147,483,648/0                      2,147,483,647/4,294,967,295
+BIGINT                         8             -9,223,372,036,854,775,808 /0         9,223,372,036,854,775,807 /
+                                                                                   18,446,744,073,709,551,615
+
+                        
+Why not just use BIGINT all the time?
+
+e.g. if you are sure that, in a certain column, you won't need an
+     integer smaller than 0 or greater than 100, TINYINT would do the job
+     perfectly and you would not need more storage space per data point
+
+* a smaller integer type may increase the processing speed
+
+
+
+
+Fixed and Floating-Point Data Type
+-------------------------------------
+
+Number              Precision                Scale
+.........           ..........               .........
+10.523                 5                      3
+36.875                 5                      3
+
+
+DECIMAL(5,3)  (P,S)
+
+
+
+Numeric Data Types....
+1. Integer
+2.fixed-point
+3. floating-point
+
+
+Floating-Point Data Type          Size(bytes)     Preision      Max Num of Digit
+..................                .........       .......       ..............
+FLOAT                              4               Single       23
+DOUBLE                             8               Double       53
+
+
+
+
+Other Useful Data Types
+------------------------
+
+DATE
+* Used to represnt a date in the format YYYY-MM-DD
+* 1st of January 1000 - 31st of December 9999
+* e.g. 25th of May 2020: '2020-05-25'
+
+
+DATE+TIME = DATETIME
+* next to the date, we could save the time:
+* 0 - 23:59:59:999999
+* e.g. 25th of May 20202 9:30 a.m : '2020-05-25 9:30:00'
+
+
+DATETIME
+represents the data shown on the calendar and the time shown on the clock.
+Vs.
+TIMESTAMP
+*used for a well-define, exact point in time
+*1st of January 1970 UTC - 19th of January 2038, 03:14:07 UTC
+ - records the moment in time as the number of seconds passed after 
+   the 1st of January 1970 00:00:00 UTC
+** Time difference and time zone indicate...
+
+
+BLOB (Binary Large OBject)
+* refers to a file of binary data
+* data with 1s and 0s - involves saving files in a record
+* .jpg, .png........
+
+
+
+
+Creating a Table
+------------------
+
+* CREATE TABLE table_name();
+** compulsory requirement: add at least one column
+
+Syntax
+
+CREATE TABLE table_name
+(
+   column_1  data_type  constrainsts,
+   column_2  data_type  constraints,
+ ... column_n  data_type  constraints
+);
+
+
+CREATE TABLE sales
+(
+purchase_number INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+date_of_purchase DATE NOT NULL,
+customer_id INT,
+item_code VARCHAR(10) NOT NULL
+);
+
+
+CREATE TABLE customers
+(
+customer_id INT,
+first_name varchar(255),
+last_name varchar(255),
+email_address varchar(255),
+number_of_complaints int
+);
+
+
+
+Using Databases and Tables
+-------------------------
+
+SQL Objects:
+- SQL table
+- views
+- stored procedures
+- functions
+
+
+USE Sales;
+
+SELECT * FROM sales.customers;
+
+SELECT * FROM sales;
+SELECT * FROM sales.sales;
