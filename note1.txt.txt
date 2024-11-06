@@ -1,0 +1,503 @@
+Data Analyst
+
+Data Manager
+
+ToDo
+Database
+Database Management Systems
+SQL
+
+The Most Effective Way to learn is by Doing
+
+---------------
+
+Why Study SQL
+---------------
+
+BI - Business Intelligence
+Web Development
+Data Science
+Database Administration
+
+
+SQL - Structured Query Language
+* it's a programming language speifically designed for working
+with database
+
+* SQL allows you to write queries that the computer can execute
+and then provide database Insights in return
+
+** Create
+** Manipulate
+** Share Data of RDBMS (Relational Database Management System)
+
+Quering The Database?
+Query (a piece of Code) > Computer  Output
+
+
+
+Reason for learning MySQL
+-------------------------
+Database Management System
+Database   ..... Platform
+
+ORACLE
+MySQL
+MariaDB
+SQLite
+PostgreSQL
+SQL Server
+
+
+MySQL
+* Reliable
+* Mature
+* Open-Source (Free)
+
+FB, YT,Pinter, Lin, Twitter
+
+
+ 
+Earning and Career Opportunity
+-------------------------------
+
+Quality Over Quantity
+
+Problem Solve = Money
+
+
+Indroduction to Database
+-------------------------
+
+Record = Row
+Field = column
+
+Field = A column in a table containing specific information
+about every record In the table.
+
+Tabular Data
+
+Relational Algebra allows us to retrieve DATA efficiently
+
+
+A few related table form a RELATIONAL DATABASE
+
+Entity = the smallest unit that can contain a meaningful set of DATA
+Entity = Database Object
+Horizontal Entity = Entity Instance = single row
+Vertical Entity
+
+
+SQL as a declarative language
+--------------------------------
+
+To Create and Manipulate Relational Database
+
+Types of Programming
+1. Procedural (Imperative)
+2. Object-Oriented
+3. Declarative (Non-Procedural) SQL (HOW , WHAT)
+4. Functional
+
+
+Main Component of SQL's Syntax
+* Data Definition Language (DDL)
+* Data Manipulation Language (DML)
+* Data Control Language (DCL)
+* Transaction Control Language (TCL)
+
+
+Data Definition Language (DDL)
+-------------------------------
+
+SQL Syntax ?
+Consists of several types of Statements that allow you to perfume
+various commands and operations.
+
+Data Definition Language (DDL)
+* A Syntax
+* A set of statements that allow the user to define or modify data
+structures and objects, such as table.
+
+The CREATE Statement
+* Used for creating entire database and database objects as table.
+
+Syntax:
+CREATE object_type object_name;
+CREATE TABLE object_name(column_name data_type);
+
+Example:
+CREATE TABLE object_name (column_name data_type);
+CREATE TABLE sales (purchase_number INT);
+
+
+The ALTER statement
+used when altering existing objects
+
+* ADD
+* REMOVE
+* RENAME
+
+Example:
+ ALTER TABLE sales
+ ADD COLUMN date_of_purchase DATE;
+
+
+The DROP Statement
+  used for deleting a database object
+
+Syntax:
+DROP object_type object_name;
+DROP TABLE sales;
+
+
+The RENAME statement
+  allows you to rename an object
+
+Syntax:
+RENAME object_type object_name TO new_object_name;
+Example:
+RENAME TABLE sales TO sales_data;
+
+
+The TRUNCATE statement
+  instead of deleting an entire table through DROP, we can also remove its data
+and continue to have the table as an object in the database.
+
+Syntax:
+TRUNCATE object_type object_name;
+
+Example:
+TRUNCATE TABLE customers;
+
+
+* CREATE
+* ALTER
+* DROP
+* RENAME
+* TRUNCATE
+
+
+SQL Keyword
+------------
+
+Keywords
+* ADD
+* CREATE
+* ALTER
+* ETC....
+
+KEYWORDS IN SQL CANNOT BE VARIABLE NAMES!
+
+objects or databases cannot have names that coincide with
+SQL keywords
+
+Never will be... 
+CREATE TABLE ALTER
+ALTER TABLE sales ADD COLUMN date_of_purchase DATE;
+
+KEYWORDS = RESERVED WORDS
+
+they cannot be used when naming objects...
+
+
+Data Manipulation Language (DML)
+It's statements allow us to manipulate the data in the
+tables of a database
+
+
+The INSERT statement
+    used to insert into tables
+
+INSERT INTO.... VALUES...;
+
+
+The SELECT statement
+   used to retrieve data from database objects, like tables
+
+SELECT * FROM sales;
+
+
+Why are we going to need just a piece of the table?
+- imagine a table with 2 million rows of data
+- it can be helpful if you could extract only a portion of the 
+table that satisfies given criteria.
+- you sould know how to use SELECT perfectly well
+
+SELECT.... FROM sales;
+
+
+The INSERT statement
+  used to insert data into tables
+
+INSERT INTO... VALUES...;
+
+
+INSERT INTO sales (purchase_number, date_of_purchase) VALUES (1,'2019-10-11');
+
+INSERT INTO sales VALUES(1,'2017-10-11');
+
+the UPDATE statement
+  allows you to renew existing date of your tables
+UPDATE sales SET date_of_purchase='2019-11-11' 
+   WHERE purchase_number=1;
+
+the DELETE statement
+ function similarly to the TRUNCATE statement
+    TRUNCATE vs. DELETE
+
+TRUNCATE allows us to remove all the records contained
+in a table 
+vs.
+with DELETE, you can specify precisely what you would like
+to be removed.
+
+
+DELTETE = specific record remove
+TRUNCATE = remove all record of table
+
+
+** SELECT... FROM...
+** INSERT INTO... VALUES...
+** UPDATE... SET... WHERE..
+** DELETE FROM... WHERE...
+
+
+Data Control Language (DCL)
+------------------------------
+
+the GRANT and REVOKE statements
+(allow us to manage the rights users have in a database)
+
+The GRANT statement
+   gives (or grants) certain permissions to users
+
+Syntax:
+GRANT type_of_permission ON database_name.table_name 
+TO 'username'@'localhost'
+
+
+
+* one can grant a specific type of permission, like complete or
+partial access.
+* these rights will be assigned to a person who has a username
+registered at the local server ('localhost':IP 127.0.01)
+* big companies and corporations don't use this type of server, and
+their databases lay on external, more powerful servers.
+
+Syntax:
+GRANT type_of_permission ON database_name.table_name
+TO 'username'@localhost
+
+Example:
+GRANT SELECT ON sales.customers
+TO 'asif'@'localhost';
+...CREATE...DROP....TRUNCATE....INSERT....ALTER...
+
+GRANT ALL ON sales.customers
+TO 'asif'@'localhost'  == Database administrator
+
+Database Administrators
+    people who have complete rights to a database 
+they can grant access to users and can revoke it
+
+the REVOKE clause
+   used to revoke permissions and privileges of database users
+   It is the exact opposite of GRANT
+
+
+
+Transaction Control Language (TCL)
+----------------------------------
+
+not every change you make to a database is saved automatically
+
+
+
+The COMMIT statement
+  related to INSERT, DELETE, UPDATE
+  will save the canges you've made
+  will let other users have access to the modified version of 
+  the database.
+
+UPDATE customers
+SET last_name = 'Johnson' 
+ WHERE customer_id=4
+COMMIT;
+
+
+The ROLLBACK clause
+* the clause that will let you make a step back
+* allows you to undo any changes you have made but 
+don't want to be saved permanently.
+
+UPDATE customers
+SET last_name = 'Johnson' 
+ WHERE customer_id=4
+COMMIT;
+ROLLBACK;
+
+
+The COMMIT statement
+* saves the transaction in the database
+* changes cannot be undone
+
+The ROLLBACK claue
+* allows you to take a step back
+* the last changes(s) made will not count
+* reverts to the last non-committed state
+
+DDL
+creation of data
+DML
+manipulation of data
+DCL
+assignment and removal of permissions to use this data
+TCL
+saving and restoring changes to a database
+
+
+Relational Database Essentials
+-----------------------------
+
+Solution = Relational Algebra
+
+2 Types of Database
+1. Relational DB
+2. Non Relational DB
+
+
+Relational Database
+Main Goal: Organize (compact, well structured) huge amount of data that can be 
+quickly retrieved (Efficient).
+
+
+Sales -> Items -> Customer
+Common between sales and item  (items_code)
+Common between Sales and customers (customers_id)
+
+RDBMS
+
+Database Vs Spreadsheets
+-------------------------
+
+Retrieval of Data
+Updating of Data
+Efficiency
+Data Consistency
+Data Integrity
+Speed
+Security
+
+
+Database Terminology
+--------------------
+
+Database Desinger Crucial!!!!
+
+Database Desinger Task
+1. Plot the entire database on a canvas using
+a visualization tool
+ * Create ER diagram
+ * Relational Scammema
+
+2. Database Creation: Ideas, Planning, Abstract 
+  Thinking and Design
+ * Use SQL to setup the Database physically
+
+3. Database Manipulation: Allow you to use your
+  Dataset to extract business insights.
+* Performance * Efficiency
+
+Database Management = 
+Database Design + Creation + Manipulation
+
+Database Administrator
+Maintenance (Care)
+
+
+Relational Schemas: Primary Key
+-------------------------------
+
+* these tables have a tabular form
+* a relational schema can be applied to represent them
+
+
+Primary key
+* A column (or a set of columns) whose value exists and is 
+unique for every record in a table is called a primary key.
+* Each table can have one and only one primary key
+* In one table, you cannot have 3 or 4 primary key
+* One-column primary key = all purchases will be recorded under
+a different number.
+* Primary keys are the unique identifiers of a table.
+* Cannot contain null values!
+
+Table name: Sales
+Primary Key: purchase_number
+Other fields: date_of purchase, customer_id(FK), item_code(FK)
+
+
+Relational Schemas: Foreign Key
+------------------------------
+
+Custer Table:
+Where customer_id is PK and no repeating and missing values
+(unique values only)
+
+Sales Table:
+Where customer_id is FK and more repeating and missing values.
+
+
+Foreign Key:
+Identifies the relationships between tables, not the tables themselves.
+
+
+Unique Key and Null Values
+---------------------------
+
+Companies Table
+company_id     PK
+company        UK
+hq_phone_no    UK
+
+
+Unique Key
+Used whenever you would like to specify that you don't
+want to see duplicate data in a given field.
+
+
+Relationship
+------------
+
+Relationships tell you how much of the data from a foreign key field
+can be seen in the primary key column of the table the data is related
+to and vice versa.
+
+One to Many type of Relationship
+One value from the customer_id column under the "Customers" table
+can be found many times in the customer_id column in the "Sales" 
+table.
+
+Types of Relationships
+1. One to many
+2. One to one
+3. Many to many
+
+Relational Schemas
+- represent the concept database administrators must implement.
+- depict how a database is organized = blueprints, or a plan for a database.
+- Will help you immensely while writing your queries.
+
+
+Installing MySQL
+----------------
+
+https://www.mysql.com
+MySQL installer 8.0.20
+
+custom
+application (mysql workbrench, latest)
+server............. 64 bit
+NEXT....
+
