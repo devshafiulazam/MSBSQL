@@ -174,3 +174,11 @@ SELECT * FROM sales.customers;
 
 SELECT * FROM sales;
 SELECT * FROM sales.sales;
+
+
+Additional Notes on Using Table
+----------------------------------
+
+DROP TABLE table_name;
+
+DROP TABLE sales;
