@@ -1,0 +1,76 @@
+Primary Key Cnstraint
+----------------------
+
+USE sales;
+
+CREATE TABLE sales
+(
+purchase_number INT NOT NULL AUTO_INCREMENT,
+date_of_purchase DATE NOT NULL,
+customer_id INT,
+item_code VARCHAR(10) NOT NULL,
+PRIMARY KEY (purchase_number)
+);
+
+
+Use Sales;
+
+CREATE TABLE customers
+(
+customer_id INT,
+first_name varchar(255),
+last_name varchar(255),
+email_address varchar(255),
+number_of_complaints int,
+PRIMARY KEY (customer_id)
+);
+
+
+Use Sales;
+
+CREATE TABLE items
+(
+item_code varchar(255),
+item varchar(255),
+unit_price numeric(10,2),
+company_id varchar(255),
+PRIMARY KEY (item_code)
+);
+
+Use Sales;
+
+CREATE TABLE companies
+(
+company_id varchar(255),
+company_name varchar(255),
+headquarters_phone_number INT(12),
+PRIMARY KEY (company_id)
+);
+
+
+Foreign Key Constraint
+-----------------------
+
+Parent Table  : Which have a Primary Key
+Child Table : Which carry a Foreign Key (Primary Key of Parent Table)
+
+Parent Table = Referenced Table
+Child Table = Referencing Table
+
+CREATE TABLE sales
+(
+purchase_number INT NOT NULL AUTO_INCREMENT,
+date_of_purchase DATE NOT NULL,
+customer_id INT,
+item_code VARCHAR(10) NOT NULL,
+PRIMARY KEY (purchase_number),
+FOREIGN KEY customer_id 
+ FOREIGN KEY ('customer_id') REFERENCES customer('customer_id') ON DELETE CASCADE
+);
+
+
+
+
+
+
+support@msbacademy.com
