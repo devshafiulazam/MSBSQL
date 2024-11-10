@@ -12,4 +12,26 @@ UNIQUE KEY (headquarters_phone_number)
 DROP TABLE defcompanies;
 
 
+CREATE TABLE DEFCUS(
+   ID INT AUTO_INCREMENT NOT NULL,
+   NAME VARCHAR (20) NOT NULL DEFAULT 'Ramesh',
+   AGE INT NOT NULL DEFAULT '32',
+   ADDRESS CHAR (25) DEFAULT 'Ahmedabad',
+   SALARY DECIMAL (18, 2) DEFAULT '2000',
+   PRIMARY KEY (ID)
+);
+
+INSERT INTO DEFCUS(SALARY) VALUES (40000);
+
+ALTER TABLE DEFCUS AUTO_INCREMENT=100;
+
+ALTER TABLE defcompanies
+MODIFY headquarters_phone_number VARCHAR(255) NULL;
+
+ALTER TABLE defcompanies
+CHANGE COLUMN headquarters_phone_number
+headquarters_phone_number VARCHAR(255) NOT NULL;
+
+
+
 
