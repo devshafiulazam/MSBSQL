@@ -11,3 +11,5 @@ UNIQUE KEY (headquarters_phone_number)
 
 DROP TABLE defcompanies;
 
+
+
