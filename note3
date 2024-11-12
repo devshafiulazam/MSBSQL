@@ -69,8 +69,591 @@ FOREIGN KEY customer_id
 );
 
 
+UNIQUE SET
+----------
+
+ALTER TABLE customers
+ADD COLUMN gender ENUM('M','F') AFTER last_name;
+
+INSERT INTO customers(first_name, last_name,gender,email_address,number_of_complaints)
+VALUES('Sabbir','Ahmed','M','sabbir@msb.com',0);
+
+
+ALTER TABLE customers
+ADD CONSTRAINT UQ_customers_email_address UNIQUE(email_address);
+
+
+Default Constraint
+-------------------
+CREATE TABLE table_name (
+  column_name data_type DEFAULT default_value
+);
+
+
+CREATE TABLE DEFCUS(
+   ID INT AUTO_INCREMENT NOT NULL,
+   NAME VARCHAR (20) NOT NULL DEFAULT 'Ramesh',
+   AGE INT NOT NULL DEFAULT '32',
+   ADDRESS CHAR (25) DEFAULT 'Ahmedabad',
+   SALARY DECIMAL (18, 2) DEFAULT '2000',
+   PRIMARY KEY (ID)
+);
+
+CREATE TABLE defcompanies
+(
+company_id int NOT NULL AUTO_INCREMENT,
+company_name VARCHAR(255) DEFAULT 'X',
+headquarters_phone_number VARCHAR(255),
+PRIMARY KEY (company_id),
+UNIQUE KEY (headquarters_phone_number)
+);
+
+ALTER TABLE defcompanies AUTO_INCREMENT=100;
+
+DROP TABLE defcompanies;
+
+
+ALTER TABLE DEFCUS AUTO_INCREMENT=100;
+
+NOT NULL Constraint
+------------------
+
+ALTER TABLE defcompanies
+MODIFY headquarters_phone_number VARCHAR(255) NULL;
+
+ALTER TABLE defcompanies
+CHANGE COLUMN headquarters_phone_number
+headquarters_phone_number VARCHAR(255) NOT NULL;
+
+
+Coding Techniques and Best Practices
+---------------------------------
+
+Don't Do This
+
+
+CREATE TABLE
+ tbl_orders (
+    fld_order_id INT PRIMARY KEY,
+    fld_customer_id INT,
+    fld_order_date DATE,
+    fld_total_amt DECIMAL(10,2)
+);
+
+
+DO This
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total DECIMAL(10,2)
+);
+
+Don't Do
+
+CREATE TABLE orders (
+    order_id INT,
+    customer_name VARCHAR(100),
+    product_name VARCHAR(100),
+    product_description VARCHAR(500),
+    price FLOAT,
+    quantity INT
+);
+
+Do This
+
+CREATE TABLE orders (
+    order_id INT,
+    customer_id INT,
+    product_id INT,
+    order_date DATETIME,
+    quantity INT,
+    CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+
+
+Full NEW
+---------------
+
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE IF NOT EXISTS employees; 
+
+
+USE employees;
+
+
+CREATE TABLE employees (
+    emp_no      INT             NOT NULL,
+    birth_date  DATE            NOT NULL,
+    first_name  VARCHAR(14)     NOT NULL,
+    last_name   VARCHAR(16)     NOT NULL,
+    gender      ENUM ('M','F')  NOT NULL,    
+    hire_date   DATE            NOT NULL,
+    PRIMARY KEY (emp_no)
+);
+
+CREATE TABLE departments (
+    dept_no     CHAR(4)         NOT NULL,
+    dept_name   VARCHAR(40)     NOT NULL,
+    PRIMARY KEY (dept_no),
+    UNIQUE  KEY (dept_name)
+);
+
+CREATE TABLE dept_manager (
+   emp_no       INT             NOT NULL,
+   dept_no      CHAR(4)         NOT NULL,
+   from_date    DATE            NOT NULL,
+   to_date      DATE            NOT NULL,
+   FOREIGN KEY (emp_no)  REFERENCES employees (emp_no)    ON DELETE CASCADE,
+   FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
+   PRIMARY KEY (emp_no,dept_no)
+); 
+
+CREATE TABLE dept_emp (
+    emp_no      INT             NOT NULL,
+    dept_no     CHAR(4)         NOT NULL,
+    from_date   DATE            NOT NULL,
+    to_date     DATE            NOT NULL,
+    FOREIGN KEY (emp_no)  REFERENCES employees   (emp_no)  ON DELETE CASCADE,
+    FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
+    PRIMARY KEY (emp_no,dept_no)
+);
+
+CREATE TABLE titles (
+    emp_no      INT             NOT NULL,
+    title       VARCHAR(50)     NOT NULL,
+    from_date   DATE            NOT NULL,
+    to_date     DATE,
+    FOREIGN KEY (emp_no) REFERENCES employees (emp_no) ON DELETE CASCADE,
+    PRIMARY KEY (emp_no,title, from_date)
+) 
+; 
+
+CREATE TABLE salaries (
+    emp_no      INT             NOT NULL,
+    salary      INT             NOT NULL,
+    from_date   DATE            NOT NULL,
+    to_date     DATE            NOT NULL,
+    FOREIGN KEY (emp_no) REFERENCES employees (emp_no) ON DELETE CASCADE,
+    PRIMARY KEY (emp_no, from_date)
+); 
+
+
+CREATE OR REPLACE VIEW dept_emp_latest_date AS
+    SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
+    FROM dept_emp
+    GROUP BY emp_no;
+
+
+
+SELECT
+   dept_no
+FROM 
+   departments;
+
+
+SELECT
+   *
+FROM 
+   departments;
+
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+  first_name='Mary';
+
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+  first_name='Ramzi' and gender = 'M';
 
 
 
 
-support@msbacademy.com
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+  first_name='Ramzi' OR first_name='Mary';
+
+
+Operator Precedence
+-------------------
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+  gender='M' AND (first_name='Ramzi' OR first_name='Mary');
+
+
+
+IN  -- NOT IN
+---------------
+
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+   first_name IN('Denis','Elvis','Ramzi');
+
+
+SELECT
+  * 
+FROM
+  departments
+WHERE 
+   dept_name NOT IN('Development','Finance','Research','Sales');
+
+
+
+LIKE  -- NOT LIKE
+--------------------
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+   first_name LIKE('Ram%');
+
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+  hire_date LIKE('%2000%');
+
+
+SELECT
+  * 
+FROM
+  employees
+WHERE 
+   emp_no LIKE('1000_');
+
+
+Wildcard Characters
+-------------------
+
+"%"  "_"  "*"
+
+you would need a wildcard character whenever you wished to put
+"anything" on it's place.
+
+"%" -- a substitute for a sequence of characters
+   LIKE('Mar%') = Mark, Martin, Margaret
+
+"_" -- helps you match a single character
+   LIKE ('Mar_') = Mark, Marv, Marl
+
+"*" -- will deliver a list of all columns in a table
+   SELECT * FROM employees;
+
+"*" -- it can be used to count all rows of a table.
+
+
+SELECT 
+   *
+FROM
+  employees
+WHERE
+  first_name LIKE ('%JACK%');
+
+SELECT 
+  *
+FROM
+ employees
+WHERE
+ first_name NOT LIKE('%Jack%');
+
+
+
+BETWEEN .... AND   NOT BETWEEN .... AND
+---------------    -------------------
+
+SELECT 
+  *
+FROM
+ salaries;
+
+
+SELECT 
+  *
+FROM
+ salaries
+WHERE
+ salary BETWEEN 66000 AND 70000;
+
+
+SELECT 
+   *
+FROM
+  employees
+WHERE
+  emp_no NOT BETWEEN '10004' AND '10012';
+
+
+SELECT
+  dept_name
+FROM
+  departments
+WHERE
+  dept_no BETWEEN 'd003' AND 'd006';
+
+
+IS NOT NULL    IS NULL
+-----------    --------
+
+SELECT 
+  dept_name
+FROM
+  departments
+WHERE
+  dept_no IS NOT NULL;
+
+
+
+Other Comparison Operations
+--------------------------
+
+= Equal To
+> Greater Than
+>= Greater Than OR Equal To
+<  Less Than
+<= Less Than OR Equal To
+<>, != Not Equal
+# Different From
+
+
+SELECT 
+   *
+FROM
+  employees
+WHERE
+  hire_date >= '2000-01-01'
+  AND gender = 'F';
+
+
+SELECT 
+  *
+FROM
+ salaries
+WHERE
+ salary > 80000;
+
+
+
+SELECT DISTINCT
+---------------
+
+Avoid Duplicate Value
+
+SELECT DISTINCT
+    hire_date
+FROM
+  employees;
+
+
+
+Aggregate Function
+-------------------
+they are applied on multiple rows of a single column of a table
+and return an output of a single value
+
+COUNT()
+   Counts the number of non-null records in a field
+   It is frequently used in combination with the reserved
+   word "DISTINCT"
+SUM()
+   Sums all the non-null values in a column
+MIN()
+   Returns the minimum value from the entire list
+MAX()
+   Returns the maximum value form the entire list
+AVG()
+   Calculates the average of all non-null values belonging 
+to a certain column of a table
+
+
+SELECT COUNT(*)
+FROM
+  salaries
+WHERE
+  salary >= 80000;
+
+
+SELECT 
+COUNT(*) at Total_Dept_of_Manager
+FROM
+  dept_manager;
+
+
+
+ORDER BY
+----------
+
+SELECT 
+*
+FROM 
+ employees
+ORDER BY first_name
+DESC;
+
+SELECT 
+*
+FROM 
+ employees
+ORDER BY first_name
+ASC;
+
+SELECT 
+*
+FROM 
+ employees
+ORDER BY first_name,last_name ASC;
+
+
+SELECT
+*
+FROM
+  employees
+ORDER BY hire_date DESC;
+
+
+
+GROUP BY
+---------
+
+GROUP BY USE After WHERE Befor ORDER BY
+
+SELECT 
+  first_name,COUNT(first_name)
+FROM
+  employees
+GROUP BY first_name;
+
+SELECT 
+  first_name,COUNT(first_name)
+FROM
+  employees
+GROUP BY first_name
+ORDER BY first_name DESC;
+
+
+
+Using Aliases
+--------------
+
+SELECT
+  salary, COUNT(emp_no) AS emps_with_same_salary
+FROM
+  salaries
+WHERE
+  salary>80000
+GROUP BY salary
+ORDER BY salary;
+
+
+HAVING
+-------
+HAVING Cluse use always
+Between GROUP BY & ORDER BY
+
+
+SELECT column_name(s)
+FROM table_name
+WHERE conditions
+GROUP BY column_name(s)
+HAVING conditions
+ORDER BY column_name(s);
+
+
+SELECT
+  *, AVG(salary)
+FROM
+  salaries
+WHERE
+  salary > 80000
+GROUP BY emp_no
+ORDER BY emp_no;
+
+SELECT
+  *, AVG(salary)
+FROM
+  salaries
+GROUP BY emp_no
+HAVING AVG(salary)>60000;
+
+
+SELECT
+  emp_no, AVG(salary)
+FROM
+  salaries
+GROUP BY emp_no
+HAVING AVG(salary)>80000
+ORDER BY emp_no;
+
+
+WHERE vs HAVING
+-----------------
+
+SELECT column_name(s)
+FROM table_name
+WHERE conditions
+GROUP BY column_name(s)
+HAVING conditions
+ORDER BY column_name(s);
+
+SELECT
+  emp_no
+FROM
+  dept_emp
+WHERE
+  from_date>'2000-01-01'
+GROUP BY emp_no
+HAVING
+   COUNT(from_date) > 1
+ORDER BY emp_no;
+
+
+
+LIMIT
+------
+
+// LIMIT always write Last position
+
+
+SELECT 
+  * 
+FROM
+  salaries
+ORDER BY salary DESC
+LIMIT 10;
+
+
+SELECT 
+  *
+FROM
+  dept_emp
+LIMIT 5;
+
+
+
+
+
+
