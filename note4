@@ -71,6 +71,51 @@ values
 );
 
 
+Inserting Data INTO a new Table
+----------------------------------
+
+INSERT INTO table_2(column_1, column_2,..., column_n)
+
+SELECT column_1, column_2,...., column_n
+FROM table_1
+WHERE condition;
+
+CREATE TABLE departments_dup
+(
+dept_no char(4) NOT NULL,
+dept_name varchar(40) NOT NULL
+);
+
+
+SELECT 
+* 
+FROM
+departments_dup;
+
+
+INSERT INTO departments_dup
+(
+dept_no,
+dept_name
+)
+SELECT
+*
+FROM
+departments;
+
+
+
+SELECT
+*
+FROM
+   departments_dup
+ORDER BY dept_no;
+
+
+INSERT INTO departments VALUES('d013','Business Analysis');
+
+
+
 
 
 
