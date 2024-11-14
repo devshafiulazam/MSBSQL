@@ -6,4 +6,6 @@ VALUES (value_1,value_2,.....,value_n);
 
 
 INSERT INTO departments(dept_no,dept_name)
-VA
+VALUES ('d010','IT'),('d011','IT Security');
+
+
