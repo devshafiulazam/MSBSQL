@@ -166,5 +166,302 @@ WHERE
 dept_no='d022';
 
 
+ON DELETE CASCADE
+if a specific value from the parent table's primary key has been
+deleted, all the records from the child table referring to this value
+will be removed as well.
+
+Delete statement might be use WHERE condition
+
+DELETE FROM departments
+WHERE
+dept_no = 'd010';
+
+
+
+DROP vs TRUNCATE vs DELETE
+
+Funclity Similar But ....
+
+Drop ... All record remove with table & never back with rollback.
+
+DROP
+You won't be able to roo back to its initial stare, or to the last
+COMMIT statement
+
+Use DROP TABLE only when you are sure you aren't going to use
+the table in question anymore.
+
+TRUNCATE
+all data remove but table sturucture will okay.
+
+TRUNCATE ~ DELETE without WHERE
+When truncating, auto-increment values will be reset.
+
+
+DELETE 
+To remove information row by row use delete statement.
+
+remove recods row by row
+
+DELETE FROM table_name
+WHERE conditons;
+
+auto-increment values are not reset with DELETE
+
+
+Aggregate Function
+----------------
+It's perfact for MIS
+
+Both Numeric and Non Numeric data
+
+COUNT()
+
+Only Numeric Data
+
+SUM()
+MIN()
+MAX()
+AVG()
+
+
+COUNT DISTINCT
+----------------
+SELECT 
+COUNT(DISTINCT to_date) as TOTAL
+FROM
+salaries;
+
+SELECT 
+COUNT(*)
+FROM
+salaries;
+
+SELECT
+COUNT(DISTINCT dept_no)
+FROM
+dept_emp;
+
+
+SUM()
+-------
+
+SELECT
+SUM(salary)
+FROM
+salaries;
+
+
+SELECT
+SUM(salary)
+FROM
+salaries
+WHERE
+from_date>'1997-01-01';
+
+
+MIN() and MAX()
+---------------
+SELECT
+MAX(salary)
+FROM
+salaries;
+
+SELECT
+MIN(salary)
+FROM
+salaries;
+
+
+
+SELECT
+MIN(emp_no)
+FROM
+employees;
+
+SELECT
+MAX(emp_no)
+FROM
+employees;
+
+
+AVG()
+-----
+
+SELECT
+AVG(salary)
+FROM
+salaries;
+
+SELECT
+AVG(salary) as Average_Salary
+FROM
+salaries
+WHERE
+from_date>'1997-01-01';
+
+
+ROUND()
+-----------
+
+
+SELECT
+ROUND(AVG(salary))
+FROM
+salaries;
+
+SELECT
+ROUND(AVG(salary),2) as AvgSalary
+FROM
+salaries
+WHERE
+from_date>'1999-01-01';
+
+
+IFNULL and COALESCE()
+---------------------
+
+ALTER TABLE departments_dup
+ADD dept_manager varchar(50);
+
+
+SELECT 
+dept_no,
+IFNULL(dept_manager,"Department Name Not Provided") as Dept_Name
+FROM
+departments_dup;
+
+
+SELECT 
+dept_no,
+dept_name,
+COALESCE(dept_manager,dept_name,"Not Provided") as Dept_Manager
+FROM
+departments_dup
+ORDER BY
+dept_no ASC;
+
+
+SELECT 
+dept_no,
+dept_name,
+COALESCE(dept_no,dept_name) as Dept_INfo
+FROM
+departments_dup
+ORDER BY
+dept_no ASC;
+
+
+SELECT 
+IFNULL(dept_no,'N/A') as dept_no,
+IFNULL(dept_name,'Dept name not provided') AS Dept_Name,
+COALESCE(dept_name,dept_no) AS dept_info
+FROM
+departments_dup
+ORDER BY dept_no ASC;
+
+
+
+
+
+SELECT 
+dept_no,
+dept_name,
+COALESCE(dept_manager,"Not Provided") as Dept_Manager
+FROM
+departments_dup
+ORDER BY
+dept_no ASC;
+
+
+Introduction to JOINs
+---------------------
+
+Joins
+We must find a related column from the two tables that
+contains the same type of data. we will be free to add
+columns from these two tables to our output.
+
+* the columns you use to relate tables must represent the 
+same object, such as id.
+* the tables you are considering need not be logically adjacent.
+
+
+
+ALTER TABLE departments_dup
+DROP COLUMN dept_manager;
+
+ALTER TABLE departments_dup
+CHANGE COLUMN dept_no dept_no CHAR(4) NULL;
+
+ALTER TABLE departments_dup
+CHANGE COLUMN dept_name dept_name VARCHAR(40) NULL;
+
+
+DROP TABLE IF EXISTS departments_dup;
+
+CREATE TABLE departments_dup
+(
+dept_no CHAR(4) NULL,
+dept_name VARCHAR(40) NULL
+);
+
+
+INSERT INTO departments_dup
+(
+dept_no,
+dept_name
+)SELECT
+*
+FROM
+departments;
+
+
+INSERT INTO departments_dup(dept_name)
+VALUES ('Plublic Relations');
+
+
+DELETE FROM departments_dup
+WHERE
+dept_no='d002';
+
+
+INSERT INTO departments_dup(dept_no) VALUES('d014'),('d018');
+
+
+
+DROP TABLE IF EXISTS dept_manager_dup;
+
+CREATE TABLE dept_manager_dup(
+emp_no int(11) NOT NULL,
+dept_no char(4) NULL,
+from_date date NOT NULL,
+to_date date NULL
+);
+
+
+INSERT INTO dept_manager_dup(emp_no,from_date)
+VALUES (999904,'2017-01-01'),
+(999905,'2017-01-01'),
+(999906,'2017-01-01'),
+(999907,'2017-01-01');
+
+INSERT INTO dept_manager_dup(emp_no,dept_no,from_date)
+VALUES (999908,'d001','2017-01-01'),
+(999909,'d002','2017-01-01'),
+(999910,'d003','2017-01-01'),
+(999910,'d004','2017-01-01');
+
+DELETE FROM dept_manager_dup
+WHERE
+dept_no = 'd001';
+
+INSERT INTO departments_dup (dept_name)
+VALUES ('Public Relations');
+
+DELETE FROM departments_dup
+WHERE
+dept_no = 'd003';
 
 
