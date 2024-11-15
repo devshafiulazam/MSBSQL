@@ -98,3 +98,23 @@ INSERT INTO orders (customer_id, product_id, quantity) VALUES
 (14, 14, 14),
 (15, 15, 15),
 (16, 16, 16);
+
+
+
+COMMIT & ROLLBACK LEARNING
+----------------------------
+ROLLBACK works with INSERT, UPDATE, DELETE
+
+SELECT * FROM products;
+
+COMMIT;
+
+UPDATE products
+SET price = 300
+WHERE
+product_id = 1;
+
+ROLLBACK;
+
+
+
