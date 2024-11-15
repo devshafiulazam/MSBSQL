@@ -1,0 +1,348 @@
+INNER JOIN Part-1
+-----------------
+
+Venn diagram
+a mathematical tool representing all possible logical relations
+between a finite collection of sets.
+
+Result Set
+the area that belongs to both circles, which is filled with DEEP COLOR,
+represents all records belonging to both the "Department Manager Duplicate"
+and the "Departments Duplicate" tables
+
+dept_no CHAR(4)
+
+matching values = matching records
+
+non-matching values = non-matching records
+
+SELECT
+*
+FROM
+dept_manager_dup
+ORDER BY dept_no;
+
+SELECT
+*
+FROM
+dept_manager_dup
+ORDER BY dept_no;
+
+
+SELECT
+   table_1.column_name(s), table_2.column_name(s)
+FROM
+   table_1
+JOIN
+   table_2 
+ON 
+  table_1.column_name = table_2.column_name;
+
+** No Need for Alias As
+SELECT
+  t1.column_name,t1.column_name,..... t2.column_name...
+FROM
+  table_1 t1
+JOIN
+  table_2 t2
+ON t1.column_name=t2.column_name;
+
+Inner joins
+* extract only records in which the values in the related columns
+match. Null values, or values appearing in just one of the two
+tables and not appearing in the other, are not displayed.
+* Only non-null matching values are in play.
+
+** INNER JOIN ignor/avoiding null value
+
+
+SELECT
+m.dept_no, d.dept_name, m.from_date
+FROM
+dept_manager_dup m
+INNER JOIN
+departments_dup d
+ON
+m.dept_no=d.dept_no
+ORDER BY
+m.dept_no;
+
+
+
+
+SELECT
+e.emp_no, e.first_name, e.last_name, dm.dept_no, e.hire_date
+FROM
+employees e
+JOIN
+dept_manager dm
+ON
+e.emp_no = dm.emp_no;
+
+
+Duplicate Records
+-----------------------
+
+Duplicate records known as duplicate rows are identical rows in an SQL table.
+
+They are sometimes encountered especially in new raw or uncontrolled data.
+
+
+CREATE TABLE Student (
+    SID INT PRIMARY KEY,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE Marks(
+    id INT,
+    mark int,
+    subject VARCHAR(50)
+);
+
+
+INSERT INTO Student(SID,name)
+VALUES 
+(1,'A'),(2,'B'),(3,'C');
+
+INSERT INTO Marks(id,mark,subject)
+VALUES 
+(1,50,'pysics'),(2,50,'biology'),(1,50,'chemistry'),
+(3,30,'mathematics');
+
+
+XXXXXXX
+SELECT distinct(std.SID),std.name,m.mark,
+row_number() over() as rownum  
+FROM 
+Student std
+JOIN marks m 
+ON std.SID=m.id AND m.mark=50;
+XXXXXXX
+
+
+SELECT std.SID, std.name, m.mark, row_number() 
+  over() as rownum 
+ FROM student std 
+    JOIN marks m 
+       ON m.id=std.SID AND m.mark=50 
+ Group By std.SID, std.name, m.mark;
+
+
+
+
+LEFT JOIN
+---------
+- all matching values of the two tables.
+- all values from the left table that match no values from the right table.
+
+
+CREATE TABLE Emp (
+    EmpID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Country VARCHAR(50),
+    Age INT,
+    Salary INT,
+    department_id INT
+);
+
+
+INSERT INTO Emp (EmpID, Name, Country, Age, Salary, department_id)
+VALUES (1, 'Shubham', 'India', 23, 30000, 101),
+       (2, 'Aman', 'Australia', 21, 45000, 102),
+       (3, 'Naveen', 'Sri Lanka', 24, 40000, 103),
+       (4, 'Aditya', 'Austria', 21, 35000, 104),
+       (5, 'Nishant', 'Spain', 22, 25000, 101);
+
+
+
+  CREATE TABLE department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50),
+    department_head VARCHAR(50),
+    location VARCHAR(50)
+);
+
+INSERT INTO department (department_id, department_name, department_head, location) 
+VALUES (101, 'Sales', 'Sarah', 'New York'),
+       (102, 'Marketing', 'Jay', 'London'),
+       (103, 'Finance', 'Lavish', 'San Francisco'),
+       (104, 'Engineering', 'Kabir', 'Bangalore');
+
+
+SELECT Emp.EmpID, Emp.Name, department.
+department_name, department.department_head, 
+department.location 
+FROM Emp
+LEFT JOIN department ON Emp.department_id = department.department_id;
+
+
+SELECT e.EmpID, e.Name, d.department_name, 
+d.department_head, d.location 
+FROM Emp e
+LEFT JOIN department d ON e.department_id
+ = d.department_id
+WHERE d.location = 'Bangalore';
+
+
+
+SELECT e.EmpID, e.Name, d.department_name, 
+d.department_head, d.location 
+FROM Emp e
+LEFT JOIN department d ON 
+e.department_id = d.department_id;
+
+
+
+SELECT
+e.emp_no,
+e.first_name,
+e.last_name,
+dm.dept_no,
+dm.from_date
+
+FROM
+employees e
+
+LEFT JOIN
+dept_manager dm
+
+ON
+e.emp_no=dm.emp_no
+
+WHERE
+e.last_name='Markovitch'
+ORDER BY dm.dept_no DESC, e.emp_no;
+
+
+
+
+RIGHT JOIN
+-----------
+
+their functionality is identical to LEFT JOINs, with the only difference
+being that the direction of the operation is inverted.
+
+LEFT and RIGHT joins are perfect examples of one-to-many relationships
+
+SELECT table1.column1, table2.column2...
+FROM table1
+RIGHT JOIN table2
+ON table1.common_field = table2.common_field;
+
+
+CREATE TABLE CUSTOMERS (
+   ID INT NOT NULL,
+   NAME VARCHAR (20) NOT NULL,
+   AGE INT NOT NULL,
+   ADDRESS CHAR (25),
+   SALARY DECIMAL (18, 2),       
+   PRIMARY KEY (ID)
+);
+
+
+INSERT INTO CUSTOMERS VALUES
+(1, 'Ramesh', 32, 'Ahmedabad', 2000.00 ),
+(2, 'Khilan', 25, 'Delhi', 1500.00 ),
+(3, 'Kaushik', 23, 'Kota', 2000.00 ),
+(4, 'Chaitali', 25, 'Mumbai', 6500.00 ),
+(5, 'Hardik', 27, 'Bhopal', 8500.00 ),
+(6, 'Komal', 22, 'Hyderabad', 4500.00 ),
+(7, 'Muffy', 24, 'Indore', 10000.00 );
+
+
+
+CREATE TABLE ORDERS (
+   OID INT NOT NULL,
+   DATE VARCHAR (20) NOT NULL,
+   CUSTOMER_ID INT NOT NULL,
+   AMOUNT DECIMAL (18, 2)
+);
+
+
+INSERT INTO ORDERS VALUES 
+(102, '2009-10-08 00:00:00', 3, 3000.00),
+(100, '2009-10-08 00:00:00', 3, 1500.00),
+(101, '2009-11-20 00:00:00', 2, 1560.00),
+(103, '2008-05-20 00:00:00', 4, 2060.00);
+
+SELECT ID, NAME, AMOUNT, DATE
+FROM CUSTOMERS
+RIGHT JOIN ORDERS
+ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+
+Joining Multiple Tables with Right Join
+.......................................
+
+SELECT column1, column2, column3... 
+FROM table1
+RIGHT JOIN table2
+ON condition_1
+RIGHT JOIN table3
+ON condition_2
+....
+....
+RIGHT JOIN tableN
+ON condition_N;
+
+
+CREATE TABLE EMPLOYEE (
+   EID INT NOT NULL,
+   EMPLOYEE_NAME VARCHAR (30) NOT NULL,
+   SALES_MADE DECIMAL (20)
+);
+
+INSERT INTO EMPLOYEE VALUES
+(102, 'SARIKA', 4500),
+(100, 'ALEKHYA', 3623),
+(101, 'REVATHI', 1291),
+(103, 'VIVEK', 3426);
+
+
+SELECT CUSTOMER.ID, CUSTOMER.NAME, 
+ORDERSS.DATE, EMPLOYEES.EMPLOYEE_NAME
+FROM CUSTOMER
+RIGHT JOIN ORDERSS
+ON CUSTOMER.ID = ORDERSS.CUSTOMER_ID
+RIGHT JOIN EMPLOYEES
+ON ORDERSS.OID = EMPLOYEES.EID;
+
+
+The New and The Older Join Syntax
+----------------------------------
+
+JOIN (the New Join Syntax)
+WHERE (the Old join Syntax)
+
+Old Join Syntax
+
+SELECT
+e.emp_no,
+e.first_name,
+e.last_name,
+dm.dept_no,
+e.hire_date
+
+FROM
+employees e,
+dept_manager dm
+WHERE
+e.emp_no = dm.emp_no;
+
+
+New Join Syntax:
+
+SELECT
+e.emp_no,
+e.first_name,
+e.last_name,
+dm.dept_no,
+e.hire_date
+
+FROM
+employees e
+
+JOIN
+dept_manager dm 
+
+ON e.emp_no = dm.emp_no;
+
