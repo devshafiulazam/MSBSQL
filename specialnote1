@@ -1,0 +1,94 @@
+SQL views and How it works
+---------------------------
+
+Using SQL Views
+
+View
+----
+a virtual whose contents are obtained from an existing
+table or tables, called base tables.
+
+The retrieval happens through an SQL statement, incorporated into the view.
+
+Think of a view object as a view into the base table.
+
+The view itself does not contain any real data; the data is physically stored
+in the base table.
+
+The view simply shows the data contained in the base table.
+
+
+CREATE VIEW
+view_name As 
+SELECT
+  column_1, column_2, .... column_n
+FROM
+  table_name;
+
+
+Using SQL Views
+
+- Saves a lot of coding time
+- Occupies no extra memory
+- Acts as a dynamic table because it instantly reflects data and
+structural changes in the base table.
+
+
+CREATE OR REPLACE VIEW v_manager_avg_dalary AS
+
+SELECT
+  ROUND(AVG(salary),2) as Manager_AVG_Salary
+FROM
+  salaries s
+JOIN
+  dept_manager m ON s.emp_no = m.emp_no;
+
+
+
+Introduction to STored Routines
+----------------------------
+
+Routine
+A usual, fixed action, or series of actions, repeated periodically.
+
+SAMe O/P request is RoutinE
+
+
+Stored routine
+an SQL statement, or a set of SQL statements, that can be stored
+on the database server.
+
+Whenever a user needs to run the query in question, they can call,
+reference or invoke the routine.
+
+This routine can bring the desired result multiple times.
+
+Stored Routines 2 types
+1. Stored Procedures
+2. Functions
+
+
+The MYSQL syntax for stored procedures
+-----------------------
+
+DELIMITER  $$ or  //   which is like ;
+
+
+DELIMITER$$
+CREATE PROCEDURE  procedure_name(parameter1, param2)
+
+** A procedure can be created without parameters too!
+Nvertheless, the parentheses must always be attached to its name.
+
+
+DELIMITER$$
+CREATE PROCEDURE procedure_name()
+BEGIN
+SELECT * FROM employees
+LIMIT 1000;
+END$$
+DELIMITER;
+
+
+
+
