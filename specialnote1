@@ -90,5 +90,40 @@ END$$
 DELIMITER;
 
 
+Stored Procedures
+-----------
+
+use employees;
+
+DROP PROCEDURE IF EXISTS select_emplyees;
+
+DELIMITER $$
+CREATE PROCEDURE select_emplyees()
+BEGIN
+  SELECT * FROM 
+  employees
+  limit 5;
+END$$
+DELIMITER ;
+
+
+call employees.select_emplyees();
+
+
+DELIMITER $$
+CREATE PROCEDURE avg_salary()
+BEGIN
+ SELECT
+   AVG(salary)
+ FROM
+   salaries;
+END$$
+DELIMITER ;
+
+CALL avg_salary;
+CALL avg_salary();
+CALL employees.avg_salary;
+CALL employees.avg_salary();
+
 
 
